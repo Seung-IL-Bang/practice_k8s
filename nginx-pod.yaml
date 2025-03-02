@@ -1,0 +1,15 @@
+# menifest 파일이라고 불린다. (k8s에서 다양한 리소스를 생성하고 관리하기 위해 생성하는 파일이다.)
+apiVersion: v1
+kind: Pod
+
+metadata:
+  name: nginx-pod
+
+spec:
+  containers:
+    - name: nginx-container
+      image: nginx
+      ports: 
+        - containerPort: 80
+
+    

@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+
+metadata:
+  name: spring-config
+
+data:
+  MY_ACCOUNT: my-account123
+  MY_PASSWORD: my-password123
+  MYSQL_SERVICE: mysql-service
+  MYSQL_PORT: "3306"
+  MYSQL_DATABASE: my_database

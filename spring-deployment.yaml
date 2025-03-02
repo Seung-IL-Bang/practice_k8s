@@ -1,0 +1,71 @@
+apiVersion: apps/v1
+kind: Deployment
+
+metadata:
+  name: spring-deployment
+
+# Define the number of replicas and the selector
+spec:
+  replicas: 3 # Define the number of replicas
+  selector:
+    matchLabels: 
+      app: backend-app
+  
+  # Define the template for the pods
+  template:
+    metadata:
+      labels:
+        app: backend-app
+    spec:
+      containers:
+        - name: spring-container
+          image: spring-server:mysql
+          ports:
+            - containerPort: 8080
+          imagePullPolicy: IfNotPresent
+          # Define the environment variables from the ConfigMap
+          env:
+            - name: MY_ACCOUNT
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: MY_ACCOUNT
+            - name: MY_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: MY_PASSWORD
+            - name: DB_HOST
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: MYSQL_SERVICE
+            - name: DB_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: MYSQL_PORT
+            - name: DB_NAME
+              valueFrom:
+                configMapKeyRef:
+                  name: spring-config
+                  key: MYSQL_DATABASE
+            - name: DB_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: MYSQL_ROOT
+            - name: DB_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: spring-secret
+                  key: MYSQL_ROOT_PW
+
+
+
+          # Define the environment variables
+          # env:
+          #   - name: MY_ACCOUNT
+          #     value: "my-account"
+          #   - name: MY_PASSWORD
+          #     value: "my-password"
